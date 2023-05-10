@@ -1,0 +1,24 @@
+0.5: Single page app diagram
+
+```mermaid
+sequenceDiagram
+    participant browser
+    participant server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    server-->>browser: HTML document: spa.html
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    server-->>browser: CSS file: main.css
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    server-->>browser:  JavaSript file: spa.js
+    note over browser: Browser starts executing the JavaScript code <br/> that fetches the JSON from the server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    server-->>browser: JSON file: data.json
+    note over browser: Browser executes the callback <br/> function that renders the notes
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/favicon.ico
+    server-->>browser: favicon.ico
+```
