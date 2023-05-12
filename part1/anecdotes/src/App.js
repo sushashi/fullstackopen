@@ -21,13 +21,8 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const handleSelection = () =>{
-    if(selected >= anecdotes.length-1){
-      return(
-        setSelected(0)
-      )
-    }
     return(
-      setSelected(selected + 1)
+      setSelected(getRandomInt())
     )
   }
 
@@ -35,6 +30,13 @@ const App = () => {
     return(
       points.indexOf(Math.max(...points))
     )
+  }
+
+  const getRandomInt = () =>{
+    while(true) {
+      const possibleNext = Math.floor(Math.random() * anecdotes.length)
+      if (possibleNext !== selected) return possibleNext
+    }
   }
 
   console.log("points: ", points)
