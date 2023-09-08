@@ -1,0 +1,31 @@
+.notification {
+  color: green;
+  background: rgb(243, 255, 233);
+  font-size: 18px;
+  /* border-style: solid; */
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px
+}
+
+.errorNotification {
+  color: red;
+  background: rgb(255, 232, 232);
+  font-size: 18px;
+  /* border-style: solid; */
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px
+}
+
+.navbarStyle {
+  background: rgb(226, 247, 255);
+  border-radius: 5px;
+  margin-Top: 10px;
+  margin-Bottom: 10px;
+  padding-Left: 10px;
+  padding-Top: 10px;
+  padding-Bottom: 10px
+}
