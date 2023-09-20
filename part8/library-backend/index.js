@@ -112,6 +112,7 @@ const resolvers = {
           }
         })
       }
+      console.log('Book added',args)
       let author = await Author.findOne({name: args.author})
       if(!author) {
         const newAuthor = new Author({name: args.author})
@@ -148,6 +149,7 @@ const resolvers = {
     },
     
     editAuthor: async (root, args, context) => {
+      console.log('edited')
       const currentUser = context.currentUser
       if(!currentUser){
         throw new GraphQLError('Not authenticated', {
