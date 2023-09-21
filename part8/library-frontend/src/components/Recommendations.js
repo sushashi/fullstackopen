@@ -4,18 +4,16 @@ import { ALL_BOOKS, USER } from '../queries'
 
 const Recommendations = ({show, token}) => {
   const resultBooks = useQuery( ALL_BOOKS )
-  const result = useQuery( USER )
-  if (!show || !result.data ) return null
-
+  const result = useQuery( USER , {
+    skip: !localStorage.getItem("library-user-token") })
+  
+  if (!show) return null
   if (result.loading) return <div> 'loading...' </div>
   if (resultBooks.loading) return <div> 'loading...' </div>
-  
-  console.log("RESULT",result)
-  const favoriteGenre = (result.data.me.favoriteGenre) ? (result.data.me.favoriteGenre) : ""
-  console.log(favoriteGenre)
+
+  const favoriteGenre = result.data.me.favoriteGenre
   const books = resultBooks.data.allBooks.filter( b => b.genres.includes(favoriteGenre))
 
-  console.log(favoriteGenre)
   return (
     <div>
       <h2>recommendations</h2>

@@ -27,14 +27,7 @@ const LoginForm = ({ show, setError, setToken, setPage }) => {
 
   const submit = async (event) => {
     event.preventDefault()
-    console.log('username', username)
-    console.log('password', password)
-
     login( { variables: {username, password} })
-
-    console.log('log in ...')
-    console.log('result', result)
-
   }
 
   if (!show) {
