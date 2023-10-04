@@ -47,6 +47,8 @@ const PatientListPage = ({ patients, setPatients } : Props ) => {
     }
   };
 
+  const baseUrl: string = 'http://localhost:3000/patients/';
+
   return (
     <div className="App">
       <Box>
@@ -66,7 +68,7 @@ const PatientListPage = ({ patients, setPatients } : Props ) => {
         <TableBody>
           {Object.values(patients).map((patient: Patient) => (
             <TableRow key={patient.id}>
-              <TableCell>{patient.name}</TableCell>
+              <TableCell><a href={baseUrl+patient.id}>{patient.name}</a> </TableCell>
               <TableCell>{patient.gender}</TableCell>
               <TableCell>{patient.occupation}</TableCell>
               <TableCell>
