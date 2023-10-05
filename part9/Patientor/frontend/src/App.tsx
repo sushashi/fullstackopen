@@ -22,7 +22,7 @@ const App = () => {
     };
     void fetchPatientList();
   }, []);
-
+  console.log('patients App',patients)
   return (
     <div className="App">
       <Router>
@@ -36,7 +36,7 @@ const App = () => {
           <Divider hidden />
           <Routes>
             <Route path="/" element={<PatientListPage patients={patients} setPatients={setPatients} />} />
-            <Route path="/patients/:id" element={<PatientSingle patients={patients}/>} />
+            <Route path="/patients/:id" element={<PatientSingle />} />
           </Routes>
         </Container>
       </Router>

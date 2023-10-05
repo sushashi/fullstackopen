@@ -1,36 +1,37 @@
 import { useParams } from 'react-router-dom';
 import { Patient } from '../types';
+import patientService from '../services/patients';
 
 import MaleIcon from '@mui/icons-material/Male';
 import FemaleIcon from '@mui/icons-material/Female';
+import { useState, useEffect } from 'react';
 
-interface props {
-  patients: Patient[];
-}
-
-const PatientSingle = ( { patients } : props ) => {
+const PatientSingle = () => {
+  const [patient, setPatient] = useState<Patient>()
 
   const id = useParams<{id: string}>().id;
-  console.log('id',id)
-  const patientX: Patient | undefined = patients.find( (p: Patient) => p.id === id );
-
-  console.log("patients",patients)
-  console.log("patientX", patientX)
-  console.log('ssn', patientX?.ssn)
+  
+  useEffect( () => {
+    const getPatient = async () => {
+      const data = await patientService.getPatient(id);
+      setPatient(data);
+    }
+    getPatient()
+  },[id])
 
   return(
     <div>
-      <h2>{patientX?.name} {patientX?.gender === 'male' ? <MaleIcon /> : <FemaleIcon/>} </h2>
+      <h2>{patient?.name} {patient?.gender === 'male' ? <MaleIcon /> : <FemaleIcon/>} </h2>
       <table>
         <tbody>
           <tr>
             <td>ssh:</td>
-            <td>{patientX?.ssn}</td>
+            <td>{patient?.ssn}</td>
           </tr>
 
           <tr>
             <td>occupation:</td>
-            <td>{patientX?.occupation}</td>
+            <td>{patient?.occupation}</td>
           </tr>
 
         </tbody>
