@@ -8,7 +8,7 @@ import { Patient } from "./types";
 
 import patientService from "./services/patients";
 import PatientListPage from "./components/PatientListPage";
-import PatientSingle from "./components/PatientSingle";
+import PatientSingle from "./components/PatientSingle/PatientSingle";
 
 const App = () => {
   const [patients, setPatients] = useState<Patient[]>([]);
@@ -22,7 +22,7 @@ const App = () => {
     };
     void fetchPatientList();
   }, []);
-  console.log('patients App',patients)
+
   return (
     <div className="App">
       <Router>

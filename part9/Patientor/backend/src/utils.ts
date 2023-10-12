@@ -1,6 +1,5 @@
 import { NewPatient, Gender} from "./types";
 
-
 const isString = (text: unknown): text is string => {
   return typeof text === 'string' || text instanceof String;
 };
@@ -18,7 +17,7 @@ const isDate = (date: string): boolean => {
 
 const parseDate = (date: unknown): string => {
   if ( !date || !isString(date) || !isDate(date) ) {
-    throw new Error('Incorrect or missing date: ' + date);
+    throw new Error('Incorrect or missing date ' + date);
   }
   return date;
 };
@@ -43,7 +42,7 @@ const isGender = (param: string): param is Gender => {
 
 const parseGender = (gender: unknown): string => {
   if (!gender || !isString(gender) || !isGender(gender) ) {
-    throw new Error('Incorrect or missing gender: ' + gender);
+    throw new Error('Incorrect or missing gender ' + gender);
   }
   return gender;
 };
@@ -66,7 +65,7 @@ const toNewPatientEntry = (object: unknown): NewPatient => {
     return newEntry;
   }
 
-  throw new Error('Incorrect data: some fields are missing')
+  throw new Error('Incorrect data: some fields are missing');
 };
 
 export default toNewPatientEntry;
