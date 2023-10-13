@@ -26,41 +26,17 @@ interface Props{
 
 const AddEntryForm = (  {patientId, setPatient} : Props   ) => {
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState<string>('');
-  const [valuedate, setValuedate] = useState<string | null>()
+  const [date, setDate] = useState<string | null>();
   const [specialist, setSpecialist] = useState('');
   const [rating, setRating] = useState('');
   const [selectedCodes, setSelectedCodes] = useState<string[]>([]);
   const [type, setType] = useState<string>('');
   const [employer, setEmployer] = useState<string>('');
-  const [startDate, setStartDate] = useState<string>('');
-  const [valueStartDate, setValueStartDate] = useState<string | null>();
-  const [endDate, setEndDate] = useState<string>('');
-  const [valueEndDate, setValueEndDate] = useState<string | null>();
-  const [dischargedDate, setDischargedDate] = useState<string>('');
-  const [valueDischargedDate, setValueDischargedDate] = useState<string | null>();
+  const [startDate, setStartDate] = useState<string | null>();
+  const [endDate, setEndDate] = useState<string | null>();
+  const [dischargedDate, setDischargedDate] = useState<string | null>();
   const [criteria, setCriteria] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
-
-  const handleDate = (e: string | null) => {
-    setDate(moment(e?.toString()).format('YYYY-MM-DD'))
-    setValuedate(e)
-  }
-
-  const handleStartDate = (e:string | null) => {
-    setStartDate(moment(e?.toString()).format('YYYY-MM-DD'));
-    setValueStartDate(e)
-  }
-
-  const handleEndDate = (e:string | null) => {
-    setEndDate(moment(e?.toString()).format('YYYY-MM-DD'));
-    setValueEndDate(e)
-  }
-
-  const handleDischargedDate = (e:string | null) => {
-    setDischargedDate(moment(e?.toString()).format('YYYY-MM-DD'));
-    setValueDischargedDate(e)
-  }
 
   interface PropsDate {
     func: ((value: string | null) => void) | undefined,
@@ -70,79 +46,74 @@ const AddEntryForm = (  {patientId, setPatient} : Props   ) => {
   const BasicDatePicker = ( {label, func, value} : PropsDate )=> {
     return (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker sx={{mr:3 }} label={label} value={value} onChange={func}/>
+          <DatePicker sx={{mr:3}} label={label} value={value} onChange={func} format="YYYY-MM-DD"/>
       </LocalizationProvider>
     );
   }
 
   const erase = () => {
     setDescription('');
-    setDate('');
+    setDate(null);
     setSpecialist('');
     setRating('');
-    setValuedate(null);
     setSelectedCodes([]);
     setCriteria('');
-    setDischargedDate('');
-    setValueDischargedDate(null);
+    setDischargedDate(null);
     setEmployer('');
-    setStartDate('');
-    setValueStartDate(null);
-    setEndDate('');
-    setValueEndDate(null);
+    setStartDate(null);
+    setEndDate(null);
   }
 
   const handleSubmit = (e: SyntheticEvent) => {
-    e.preventDefault()
-    console.log('Adding ..')
+    e.preventDefault();
     let newEntry: EntryWithoutId;
     switch(type) {
       case 'Health Check':
         newEntry = {
-          'date':date,
+          'date': moment(date?.toString()).format('YYYY-MM-DD'),
           'description': description,
           'specialist': specialist,
           'diagnoseCodes': selectedCodes,
           'healthCheckRating': parseInt(rating),
           'type':'HealthCheck',
-        }
+        };
         break;
       case 'Hospital':
         newEntry = {
-          'date':date,
+          'date': moment(date?.toString()).format('YYYY-MM-DD'),
           'description': description,
           'specialist': specialist,
           'diagnoseCodes': selectedCodes,
           'type':'Hospital',
           'discharge': {
-            'date': dischargedDate,
+            'date': moment(dischargedDate?.toString()).format('YYYY-MM-DD'),
             'criteria': criteria,
           }
-        }
+        };
         break;
       case 'Occupational Healthcare':
         newEntry = {
-          'date':date,
+          'date': moment(date?.toString()).format('YYYY-MM-DD'),
           'description': description,
           'specialist': specialist,
           'diagnoseCodes': selectedCodes,
           'type':'OccupationalHealthcare',
           'employerName': employer,
           'sickLeave': {
-            'startDate': startDate,
-            'endDate': endDate
+            'startDate': moment(startDate?.toString()).format('YYYY-MM-DD'),
+            'endDate': moment(endDate?.toString()).format('YYYY-MM-DD'),
           }
-        }
+        };
         break;
       default:
         console.log('?');
-    }
+    };
 
     const execute = async () => {
       try {
         await patientServices.createEntry(newEntry, patientId);
         const dataPatient = await patientServices.getPatient(patientId);
-        setPatient(dataPatient)
+        setPatient(dataPatient);
         erase();
       } catch (e: unknown) {
         if (axios.isAxiosError(e)) {
@@ -158,15 +129,15 @@ const AddEntryForm = (  {patientId, setPatient} : Props   ) => {
           setErrorMessage("Unknown error");
         }
         setTimeout( () => {
-          setErrorMessage('')
-        }, 5000)
-      }
-    }
+          setErrorMessage('');
+        }, 5000);
+      };
+    };
 
     execute();
-  }
+  };
 
-  const errorMsg = () => {
+  const ErrorMsg: React.FC = () => {
     return (
       <div style={{ 
         color:'red',
@@ -179,14 +150,14 @@ const AddEntryForm = (  {patientId, setPatient} : Props   ) => {
         <ErrorOutlineIcon style={{position:'relative', top:'6px'}}/>{errorMessage}
       </div>
     )
-  }
-
-  const handleChangeRating = (e: SelectChangeEvent) => {
-    e.preventDefault();
-    setRating(e.target.value);
-  }
+  };
 
   const SelectHealthRating: React.FC = () => {
+    const handleChangeRating = (e: SelectChangeEvent) => {
+      e.preventDefault();
+      setRating(e.target.value);
+    };
+
     return ( 
       <FormControl fullWidth>
       <InputLabel id="demo-simple-select-label">Health check rating</InputLabel>
@@ -204,14 +175,14 @@ const AddEntryForm = (  {patientId, setPatient} : Props   ) => {
       </Select>
     </FormControl>
     )
-  }
-
-  const handleChangeType = (e: SelectChangeEvent) => {
-    e.preventDefault();
-    setType(e.target.value);
-  }
+  };
 
   const SelectType: React.FC = () => {
+    const handleChangeType = (e: SelectChangeEvent) => {
+      e.preventDefault();
+      setType(e.target.value);
+    };
+
     return ( 
       <FormControl fullWidth>
       <InputLabel sx={{mt:3}} id="demo-simple-select-label">Select Entry Type</InputLabel>
@@ -229,17 +200,17 @@ const AddEntryForm = (  {patientId, setPatient} : Props   ) => {
       </Select>
     </FormControl>
     )
-  }
+  };
 
   return (
     <div style={{}}>
-      {errorMessage ? errorMsg() : ''}
+      {errorMessage ? <ErrorMsg /> : ''}
       <SelectType />
       <form onSubmit={handleSubmit} >
         
         <Box sx={{p:2, boxShadow: 2}}>
           <Typography variant="h5" style={{ marginBottom: "1em" }}>New {type} Entry</Typography>
-          <BasicDatePicker label={'Date'} value={valuedate} func={e => handleDate(e)}/> 
+          <BasicDatePicker label={'Date'} value={date} func={e => setDate(e)}/> 
           <TextField fullWidth label="Description" variant="standard" value={description} onChange={(e) => setDescription(e.target.value)}/>
           <TextField sx={{mb:2}} fullWidth label="Specialist" variant="standard" value={specialist} onChange={(e) => setSpecialist(e.target.value)}/>
           <MultipleSelectChip selectedCodes={selectedCodes} setSelectedCodes={setSelectedCodes}/>
@@ -256,9 +227,8 @@ const AddEntryForm = (  {patientId, setPatient} : Props   ) => {
             <Typography>Sick Leave</Typography>      
             <TextField fullWidth label="Employer Name" variant="standard" value={employer} onChange={(e) => setEmployer(e.target.value)}/>
             <Box sx={{mt:2}}>
-              
-              <BasicDatePicker label={'Start Date'} value={valueStartDate} func={e => handleStartDate(e)}/>  
-              <BasicDatePicker label={'End Date'} value={valueEndDate} func={e => handleEndDate(e)}/> 
+              <BasicDatePicker label={'Start Date'} value={startDate} func={e => setStartDate(e)}/>  
+              <BasicDatePicker label={'End Date'} value={endDate} func={e => setEndDate(e)}/> 
             </Box>
           </Box>
         : ''}
@@ -266,7 +236,7 @@ const AddEntryForm = (  {patientId, setPatient} : Props   ) => {
         {type === 'Hospital' ?
           <Box sx={{p:2, boxShadow: 2, mt:1}}>          
               <Box sx={{mt:2}}>
-                <BasicDatePicker label={'Discharge Date'} value={valueDischargedDate} func={e => handleDischargedDate(e)}/>  
+                <BasicDatePicker label={'Discharge Date'} value={dischargedDate} func={e => setDischargedDate(e)}/>  
               </Box>
               <TextField sx={{mt:1}} fullWidth label="Discharge Criteria" variant="standard" value={criteria} onChange={(e) => setCriteria(e.target.value)}/>
           </Box>

@@ -23,16 +23,16 @@ const PatientSingle = () => {
     const getPatient = async () => {
       const data = await patientService.getPatient(id);
       setPatient(data);
-    }
+    };
 
     const getDiagnoses = async () => {
       const data = await diagnoseService.getAll();
       setDiagnose(data);
-    }
+    };
 
     getPatient()
     getDiagnoses()
-  },[id])
+  },[id]);
 
   const assertNever = (value: never): never => {
     throw new Error(
@@ -50,8 +50,9 @@ const PatientSingle = () => {
         return <OccupationalHealthcareEntry entry={entry} diagnose={diagnose}/>;
       default:
         return assertNever(entry);
-    }
-  }
+    };
+  };
+
   const style = {
     border: '1px dashed gray',
     borderRadius: '10px',
@@ -59,7 +60,7 @@ const PatientSingle = () => {
     paddingRight: '15px',
     paddingBottom: '15px',
     marginTop: '10px'
-  }
+  };
 
   return(
     <div>
@@ -70,12 +71,10 @@ const PatientSingle = () => {
             <td>ssh:</td>
             <td>{patient?.ssn}</td>
           </tr>
-
           <tr>
             <td>occupation:</td>
             <td>{patient?.occupation}</td>
           </tr>
-
         </tbody>
       </table>
       
@@ -90,10 +89,8 @@ const PatientSingle = () => {
         </div>
         )
       )}
-
-
     </div>
   )
-}
+};
 
 export default PatientSingle;
