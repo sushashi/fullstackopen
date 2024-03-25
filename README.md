@@ -1,6 +1,6 @@
 # Full Stack Open
 
-This repository is used for the [Full Stack open](https://fullstackopen.com/en/) course offerend by the University of Helsinki.
+This repository is used for the [Full Stack open](https://fullstackopen.com/en/) course offered by the University of Helsinki.
 
 This online course consists of a core course and multiple extensions worth up to 14 credits ECTS.
 - Parts 0-5 (core course) - Full Stack Web Development (5 cr, [CSM141081](https://studies.helsinki.fi/courses/course-implementation/otm-861c248f-e4e4-43df-a69a-50fd206afabf/CSM141081))
@@ -66,7 +66,7 @@ This online course consists of a core course and multiple extensions worth up to
 
 ## Part 12: Containers
 - [Course material](https://fullstackopen.com/en/part12)
-- [Exercise submission](part12)
+- [Exercise submission](part12-containers-applications)
 
 ## Part 13: Using relational databases
 - [Course material](https://fullstackopen.com/en/part13)
